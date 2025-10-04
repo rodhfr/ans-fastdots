@@ -1,4 +1,4 @@
-# **🟥 WIP** - not functional yet.
+# **🟥 WIP** - not functional.
 Quicky install *your own* dotfiles and programs using ansible to deploy a new developer environment in seconds.
 
 ## Why yet another dotfiles installer?
