@@ -3,6 +3,8 @@ Quicky install *your own* dotfiles and programs using ansible to deploy a new de
 
 ## Why yet another dotfiles installer?
 Tired of installing random dotfiles from the internet and wondering why something breaks afterward?
+
+
 Dotfiles are meant to be personal — this tool helps you automate them in a reproducible and idempotent way.
 
 * Use your own dotfiles:
