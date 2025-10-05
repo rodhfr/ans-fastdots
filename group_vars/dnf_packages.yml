@@ -12,6 +12,10 @@ dnf_packages:
   - lpf-xone-firmware
   - mosh
   - xone
+  - webkit2gtk4.1
+  - webkit2gtk4.1-devel
+  - libEGL
+  - libGL
   - nmap
   - nautilus-open-any-terminal
   - rsync
