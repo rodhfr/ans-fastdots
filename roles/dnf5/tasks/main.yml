@@ -1,0 +1,5 @@
+- name: DNF5 Single Package Installation
+  ansible.builtin.dnf:
+    name: "{{ single_package_dnf }}"
+    state: present
+  when: single_package_dnf is defined and single_package_dnf != ""

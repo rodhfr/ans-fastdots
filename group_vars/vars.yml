@@ -29,6 +29,7 @@ dnf_packages:
   - calc
   - openssh-server
   - gedit
+  - python3-libdnf5
   - kde-connect
   - ncurses-devel
   - rpmfusion-nonfree-release-tainted

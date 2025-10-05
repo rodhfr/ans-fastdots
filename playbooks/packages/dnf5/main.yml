@@ -1,8 +1,8 @@
 - name: DNF5 Packaging Setup
-  hosts: local
+  hosts: all
   become: true
   vars_files:
-    - vars/dnf_packages.yml
+    - dnf_packages.yml
   tasks:
     - name: Gather package facts
       ansible.builtin.setup:
@@ -62,23 +62,3 @@
         name: "{{ packages_to_install }}"
         state: present
       when: packages_to_install | length > 0
-
-    - name: Check if cargo is installed
-      ansible.builtin.stat:
-        path: /home/{{ ansible_user_id }}/.cargo/bin/cargo
-      register: packaging_packages_cargo_exists
-
-    - name: Download rustup installer script
-      ansible.builtin.get_url:
-        url: https://sh.rustup.rs
-        dest: /tmp/rustup-init.sh
-        mode: '0755'
-      when: not packages_cargo_exists.stat.exists
-
-    - name: Install Rust using rustup
-      ansible.builtin.shell: |
-        sh /tmp/rustup-init.sh -y
-      args:
-        creates: /home/{{ ansible_user_id }}/.cargo/bin/rustc
-      become: false
-      when: not packages_cargo_exists.stat.exists

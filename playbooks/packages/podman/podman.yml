@@ -1,0 +1,45 @@
+- name: Portainer installation
+  hosts: all
+  become: true
+  vars:
+    # this variable is used in the dnf5 role to install a single package
+    single_package_dnf: "{{ container_engine }}"
+    systemd_service_name: "{{ container_engine }}.socket"
+  vars_files:
+    - "{{ playbook_dir }}/defaults.yml"
+    - "{{ playbook_dir }}/../../../config.yml"
+  roles:
+    - role: dnf5
+      when: install_portainer
+    - role: systemd_enable_service
+      when: install_portainer
+  tasks:
+    - name: Install portainer
+      when: install_portainer
+      block:
+        - name: Show value of install_portainer
+          ansible.builtin.debug:
+            var: install_portainer
+
+        - name: Ensure portainer_data volume exists
+          become: true
+          containers.podman.podman_volume:
+            name: portainer_data
+            state: present
+
+        - name: Run Portainer container
+          become: true
+          containers.podman.podman_container:
+            name: portainer
+            image: "{{ portainer_image }}"
+            state: started
+            restart_policy: "{{ restart_policy }}"
+            ports:
+              - "{{ portainer_edge_agent_port }}:{{ portainer_edge_agent_port }}"
+              - "{{ portainer_webui_port }}:{{ portainer_webui_port }}"
+            volumes:
+              - "{{ portainer_data_volume }}"
+              - "{{ portainer_podman_volume if container_engine == 'podman' else portainer_docker_volume }}"
+        - name: Show Portainer login info
+          ansible.builtin.debug:
+            msg: "Setup Login in Portainer: https://{{ ansible_host }}:{{ portainer_webui_port }}."

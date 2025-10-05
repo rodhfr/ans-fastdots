@@ -1,0 +1,5 @@
+- name: Systemd Enable Service
+  ansible.builtin.systemd_service:
+    name: "{{ systemd_service_name }}"
+    state: started
+    enabled: true
